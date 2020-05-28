@@ -32,7 +32,7 @@ def open_web_links_in_file(path_link_file, heading_links_to_open=None):
 
 
 def main():
-    open_web_links_in_file(PATH_LINKS_TO_OPEN, heading_links_to_open='# ALWAYS')
+    open_web_links_in_file(PATH_LINKS_TO_OPEN, heading_links_to_open='# Always')
 
     with open(PATH_LAST_EXECUTION_TIME, 'r') as f:
         last_execution_date = f.readline()
