@@ -1,59 +1,50 @@
-import webbrowser
-import time
+
 import datetime
+import os
+from time import sleep
+import webbrowser
+
+PWD = os.path.abspath(os.path.dirname(__file__))
+PATH_LAST_EXECUTION_TIME = os.path.join(PWD, 'last_opened.txt')
+PATH_LINKS_TO_OPEN = os.path.join(PWD, 'links.txt')
 
 
-def OpenLinks(path, lineMin=0, lineMax=-1, openHeading='#Null', wait=0):
-    # Wait for the browser to update
-    if wait == 1:
-        time.sleep(0.1)
+def open_web_links_in_file(path_link_file, heading_links_to_open=None):
 
-    with open(path, 'r') as file:
-        line = 0
-        heading = ''
-        for row in file:
+    def open_link_with_validation(row):
+        if row[0:4] == 'http':
+            webbrowser.open_new_tab(row)
+            sleep(0.03)
+
+    current_heading = ''
+    with open(path_link_file, 'r') as f:
+        for row in f:
             row = row.strip()
-            row = row + ' '  # Empty row causes an error
-            line += 1
 
-            # Open link based on row number
-            if line >= lineMin and line <= lineMax:
-                if row[0:4] == 'http':
-                    webbrowser.open_new_tab(row)
+            if row and row[0] == '#':
+                current_heading = row
 
-            # Open link based on the heading. Headings are marked by a leading '#' character.
-            if row[0] == '#':
-                heading = row
-                heading = heading.strip()
-            if heading == openHeading and row[0:4] == 'http':
-                webbrowser.open_new_tab(row)
+            if heading_links_to_open is None:
+                open_link_with_validation(row)
 
-            time.sleep(0.075)
+            elif current_heading == heading_links_to_open:
+                open_link_with_validation(row)
 
 
-def Main():
-    # State file has one variable: last execution time
-    pathState = 'DailyWeb_state.txt'
-    with open(pathState, 'r') as file:
-        lastExec = file.readline()
+def main():
+    open_web_links_in_file(PATH_LINKS_TO_OPEN, heading_links_to_open='# ALWAYS')
 
-    now = datetime.datetime.now()
-    now = now.strftime('%Y-%m-%d')
+    with open(PATH_LAST_EXECUTION_TIME, 'r') as f:
+        last_execution_date = f.readline()
 
-    # Open links that are opened every time the program is executed
-    pathLinks = 'DailyWeb_links.txt'
-    OpenLinks(pathLinks, lineMax=25)
+    today = datetime.datetime.now().strftime('%Y-%m-%d')
 
-    # Open links that are opened only once per day
-    # if now != lastExec:
-    #     pathTitles = 'C:/Users/peter/Dropbox/Muistiinpanoja/Titles.txt'
-    #     OpenLinks(pathTitles, openHeading='#Comics', wait=1)
+    if today != last_execution_date:
+        open_web_links_in_file(PATH_LINKS_TO_OPEN, heading_links_to_open='# Daily')
 
-    # Update state
-    with open(pathState, 'w') as file:
-        file.write(now)
-
-    exit()
+    with open(PATH_LAST_EXECUTION_TIME, 'w') as f:
+        f.write(today)
 
 
-Main()
+if __name__ == "__main__":
+    main()
