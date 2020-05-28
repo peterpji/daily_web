@@ -4,9 +4,9 @@ import os
 from time import sleep
 import webbrowser
 
-PWD = os.path.abspath(os.path.dirname(__file__))
-PATH_LAST_EXECUTION_TIME = os.path.join(PWD, 'last_opened.txt')
-PATH_LINKS_TO_OPEN = os.path.join(PWD, 'links.txt')
+pwd = os.path.abspath(os.path.dirname(__file__))
+PATH_LAST_EXECUTION_TIME = os.path.join(pwd, 'last_opened.txt')
+PATH_LINKS_TO_OPEN = os.path.join(pwd, 'links.txt')
 
 
 def open_web_links_in_file(path_link_file, heading_links_to_open=None):
