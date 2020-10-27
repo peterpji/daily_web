@@ -1,4 +1,3 @@
-
 import datetime
 import os
 from time import sleep
@@ -10,7 +9,6 @@ PATH_LINKS_TO_OPEN = os.path.join(pwd, 'links.txt')
 
 
 def open_web_links_in_file(path_link_file, heading_links_to_open=None):
-
     def open_link_with_validation(row):
         if row[0:4] == 'http':
             webbrowser.open_new_tab(row)
@@ -34,8 +32,11 @@ def open_web_links_in_file(path_link_file, heading_links_to_open=None):
 def main():
     open_web_links_in_file(PATH_LINKS_TO_OPEN, heading_links_to_open='# Always')
 
-    with open(PATH_LAST_EXECUTION_TIME, 'r') as f:
-        last_execution_date = f.readline()
+    if os.path.exists(PATH_LAST_EXECUTION_TIME):
+        with open(PATH_LAST_EXECUTION_TIME, 'r') as f:
+            last_execution_date = f.readline()
+    else:
+        last_execution_date = None
 
     today = datetime.datetime.now().strftime('%Y-%m-%d')
 
