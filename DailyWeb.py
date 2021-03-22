@@ -15,7 +15,7 @@ def open_web_links_in_file(path_link_file, heading_links_to_open=None):
             sleep(0.03)
 
     current_heading = ''
-    with open(path_link_file, 'r') as f:
+    with open(path_link_file) as f:
         for row in f:
             row = row.strip()
 
@@ -33,7 +33,7 @@ def main():
     open_web_links_in_file(PATH_LINKS_TO_OPEN, heading_links_to_open='# Always')
 
     if os.path.exists(PATH_LAST_EXECUTION_TIME):
-        with open(PATH_LAST_EXECUTION_TIME, 'r') as f:
+        with open(PATH_LAST_EXECUTION_TIME) as f:
             last_execution_date = f.readline()
     else:
         last_execution_date = None
@@ -47,5 +47,5 @@ def main():
         f.write(today)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
