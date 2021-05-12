@@ -29,22 +29,31 @@ def open_web_links_in_file(path_link_file, heading_links_to_open=None):
                 open_link_with_validation(row)
 
 
-def main():
-    open_web_links_in_file(PATH_LINKS_TO_OPEN, heading_links_to_open='# Always')
-
+def get_last_execution_date():
     if os.path.exists(PATH_LAST_EXECUTION_TIME):
         with open(PATH_LAST_EXECUTION_TIME) as f:
             last_execution_date = f.readline()
     else:
         last_execution_date = None
 
+    return last_execution_date
+
+
+def update_last_execution_date(new_date):
+    with open(PATH_LAST_EXECUTION_TIME, 'w') as f:
+        f.write(new_date)
+
+
+def main():
+    open_web_links_in_file(PATH_LINKS_TO_OPEN, heading_links_to_open='# Always')
+
+    last_execution_date = get_last_execution_date()
     today = datetime.datetime.now().strftime('%Y-%m-%d')
 
     if today != last_execution_date:
         open_web_links_in_file(PATH_LINKS_TO_OPEN, heading_links_to_open='# Daily')
 
-    with open(PATH_LAST_EXECUTION_TIME, 'w') as f:
-        f.write(today)
+    update_last_execution_date(today)
 
 
 if __name__ == '__main__':
