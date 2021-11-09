@@ -1,12 +1,8 @@
 
 # Always
 https://calendar.google.com/
-https://www.youtube.com/feed/subscriptions
-https://www.youtube.com/playlist?list=WL&disable_polymer=true
-https://www.facebook.com/
+http://hs.fi/
 
 # Daily
-https://explosm.net/
 https://www.smbc-comics.com/
-https://www.hs.fi/fingerpori/
 https://xkcd.com/
