@@ -16,7 +16,7 @@ def open_web_links_in_file(path_link_file: str, heading_links_to_open: Optional[
             sleep(0.05)
 
     current_heading = ''
-    with open(path_link_file) as f:
+    with open(path_link_file, encoding='utf-8') as f:
         for row in f:
             row = row.strip()
 
@@ -28,14 +28,14 @@ def open_web_links_in_file(path_link_file: str, heading_links_to_open: Optional[
 
 
 def update_last_execution_date(new_date: str):
-    with open(PATH_LAST_EXECUTION_TIME, 'w') as f:
+    with open(PATH_LAST_EXECUTION_TIME, 'w', encoding='utf-8') as f:
         f.write(new_date)
 
 
 def is_not_opened_today(today):
     def get_last_execution_date() -> str:
         if os.path.exists(PATH_LAST_EXECUTION_TIME):
-            with open(PATH_LAST_EXECUTION_TIME) as f:
+            with open(PATH_LAST_EXECUTION_TIME, encoding='utf-8') as f:
                 last_execution_date = f.readline()
         else:
             last_execution_date = None
